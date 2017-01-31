@@ -47,39 +47,43 @@ public class BabyBirths {
     
                 
     
-    public int getRank(DirectoryResource dr, int year, String name, String gender){
+    public int getRank(int year, String name, String gender){
         int currentRank = 1;
         int theRank = -1;
-       
-        
-        for (File f : dr.selectedFiles()) {
-		    FileResource fr = new FileResource(f);
-            String currentYearString = f.getName();
-            
-            if(currentYearString.contains(Integer.toString(year))){
-            
-                for (CSVRecord rec : fr.getCSVParser(false)){
-                    if(rec.get(1).equals(gender) && rec.get(0).equals(name)){
-                        theRank = currentRank;
-                        System.out.println("currentYearString" + " " + theRank);
-                        return theRank;
-                    }
-                    currentRank += 1;
-                }
-            }
-        }
-        
+ 
+        FileResource fr = new FileResource("data/yob"+year+".csv");
+        if (gender=="F"){
+          for (CSVRecord rec : fr.getCSVParser(false)){
+              if(rec.get(1).equals(gender) && rec.get(0).equals(name)){
+                    theRank = currentRank;
+                    return theRank;
+              }
+          currentRank += 1;
+         }
         return theRank;
+        }else {  //it's M
+          currentRank=1;
+            for (CSVRecord rec : fr.getCSVParser(false)){
+              if(rec.get(1).equals(gender) && rec.get(0).equals(name)){
+                    theRank = currentRank;
+                    return theRank;
+              }
+          if(rec.get(1).equals("M")){
+              currentRank += 1;
+          }
+         }
+        return theRank;            
+            
+        }    
     }
+        
     
     public void testgetRank(){
-          int theRank = -1;
-          int year = 2010;
-          String name = "Sophia";
+          int year = 1961;
+          String name = "Lorraine";
           String gender = "F";
-          
-          DirectoryResource dr = new DirectoryResource();
-          theRank=getRank(dr, year, name,gender);
+         
+          int theRank=getRank(year, name, gender);
           System.out.println(name + " rank is " + theRank + " in " + year);
     }
 
@@ -89,13 +93,13 @@ public class BabyBirths {
         DirectoryResource dr = new DirectoryResource();
         
         for (File f : dr.selectedFiles()) {
-		    FileResource fr = new FileResource(f);
+            FileResource fr = new FileResource(f);
             String currentYearString = f.getName();
             
             if(currentYearString.contains(Integer.toString(year))){
             
                 for (CSVRecord rec : fr.getCSVParser(false)){
-                    if(rec.get(1).equals(gender) && (getRank(dr, year,rec.get(0),gender)==rank)){
+                    if(rec.get(1).equals(gender) && (getRank(year,rec.get(0),gender)==rank)){
                         theName = rec.get(0);
                         System.out.println(theName);
                         return theName;
