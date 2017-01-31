@@ -129,22 +129,29 @@ public class BabyBirths {
     
     public int yearOfHighestRank(String name, String gender){
     int bestYear=-1;  //in case name or gender isn't found
-    int bestRank=-1;  //in case rank never changes
+    int bestRank=99999;  //in case rank never changes
     //select files
+    int startYear = 1880;
+    int endYear = 2014;
     
-    //loop through files. 
-        
-        //if currentRank>bestRank, then update bestYear and bestRank
-        
-    // return bestYear
-    
+        for (int year=startYear; year<=endYear; year++) {
+       
+        int currentRank = getRank(year, name, gender);
+
+            if (currentRank<bestRank) {
+                bestRank=currentRank;
+                bestYear=year;
+            }
+        System.out.println(year + "  " + currentRank + "  " + bestRank);
+        }   
+    return bestYear;
     }
     
     public void test_yearOfHighestRank(){
     String name="Thomas";
     String gender="M";
     int theYear=yearOfHighestRank(name, gender);
-    System.out.println(name + " had highest ranking in year "+ theYear);
+    System.out.println(name + " had best ranking in year "+ theYear);
     }
     
     
