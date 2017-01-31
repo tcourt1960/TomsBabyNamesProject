@@ -52,8 +52,9 @@ public class BabyBirths {
         int theRank = -1;
  
         FileResource fr = new FileResource("data/yob"+year+".csv");
+        CSVParser parser = fr.getCSVParser(false);
         if (gender=="F"){
-          for (CSVRecord rec : fr.getCSVParser(false)){
+          for (CSVRecord rec : parser){
               if(rec.get(1).equals(gender) && rec.get(0).equals(name)){
                     theRank = currentRank;
                     return theRank;
@@ -79,8 +80,8 @@ public class BabyBirths {
         
     public void testgetRank(){
           int year = 1961;
-          String name = "Lorraine";
-          String gender = "F";
+          String name = "Kai";
+          String gender = "M";
          
           int theRank=getRank(year, name, gender);
           System.out.println(name + " rank is " + theRank + " in " + year);
@@ -153,6 +154,58 @@ public class BabyBirths {
     int theYear=yearOfHighestRank(name, gender);
     System.out.println(name + " had best ranking in year "+ theYear);
     }
+    
+    
+    
+    public double getAverageRank(String name, String gender){
+    double avgRank = -1.0;
+    double rankSum = 0.0;
+    int startYear = 1880;
+    int endYear = 2014;
+    
+        for (int year=startYear; year<=endYear; year++) {
+       
+            int currentRank = getRank(year, name, gender);
+            rankSum= rankSum + currentRank;
+
+        System.out.println(year + "  " + currentRank + "  " + rankSum);
+        }       
+        
+        return rankSum/(endYear-startYear+1.0);
+        
+    }
+    
+    public void test_getAverageRank(){
+    String name="Thomas";
+    String gender="M";
+    double avgRank= getAverageRank(name, gender);
+    System.out.println(name + " had average ranking of "+ avgRank);  
+    }
+    
+    
+    public int getTotalBirthsRankedHigher(int year, String name, String myGender){
+        int myRank = getRank(year, name, myGender);
+        int rankSum = 0;
+        FileResource theFr = new FileResource("data/yob"+year+".csv");
+        CSVParser theparser = theFr.getCSVParser(false);
+            for (CSVRecord rec: theparser){
+                int testRank= getRank(year, rec.get(0), rec.get(1));
+                String testGender=rec.get(1);
+                if ((testGender=="F") && (testRank<myRank)){
+                    rankSum=rankSum + Integer.parseInt(rec.get(2));
+                }
+            }
+        return rankSum;
+    }
+    
+    public void test_getTotalBirthsRankedHigher(){
+    int year=2014;
+    String name = "Olivia";
+    String gender ="F";
+    int totalBirthsRankedHigher = getTotalBirthsRankedHigher(year, name, gender);
+    System.out.println("There were " + totalBirthsRankedHigher + " births ranked higher than " + name + " in " + year);
+    }
+    
     
     
     public void checkDir(){
