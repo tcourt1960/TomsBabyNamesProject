@@ -110,6 +110,44 @@ public class BabyBirths {
     }
     
     
+    
+    public void whatIsNameInYear(String name, int year, int newYear, String gender){
+     int rank=getRank(year, name, gender);
+     String theName = getName(newYear, rank, gender);
+     System.out.println(name + " born in " + year + " would be " + theName + " if born in "+newYear);
+    }
+    
+    public void test_whatIsNameInYear(){
+    String name = "Tom";
+    int year = 1961;
+    int newYear=2014;
+    String gender ="M";    
+    whatIsNameInYear(name, year,newYear, gender);
+    }
+    
+    
+    
+    public int yearOfHighestRank(String name, String gender){
+    int bestYear=-1;  //in case name or gender isn't found
+    int bestRank=-1;  //in case rank never changes
+    //select files
+    
+    //loop through files. 
+        
+        //if currentRank>bestRank, then update bestYear and bestRank
+        
+    // return bestYear
+    
+    }
+    
+    public void test_yearOfHighestRank(){
+    String name="Thomas";
+    String gender="M";
+    int theYear=yearOfHighestRank(name, gender);
+    System.out.println(name + " had highest ranking in year "+ theYear);
+    }
+    
+    
     public void checkDir(){
     DirectoryResource dr = new DirectoryResource();
     
