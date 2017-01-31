@@ -9,7 +9,7 @@ import java.io.*;
 
 public class BabyBirths {
     public void printNames () {
-        FileResource fr = new FileResource("data/example-small.csv");
+        FileResource fr = new FileResource("data/yob1900.csv");
         for (CSVRecord rec : fr.getCSVParser(false)) {
             int numBorn = Integer.parseInt(rec.get(2));
             if (numBorn <= 100) {
@@ -20,6 +20,31 @@ public class BabyBirths {
         }
     }
 
+    
+        public void totalNames (FileResource fr) {
+        int totalNames = 0;
+        int totalBoysNames = 0;
+        int totalGirlsNames = 0;
+        for (CSVRecord rec : fr.getCSVParser(false)) {
+            totalNames += 1;
+            if (rec.get(1).equals("M")) {
+                totalBoysNames += 1;
+            }
+            else {
+                totalGirlsNames += 1;
+            }
+        }
+        System.out.println("total names = " + totalNames);
+        System.out.println("female girls names = " + totalGirlsNames);
+        System.out.println("male boys names = " + totalBoysNames);
+    }
+    
+      public void test_totalNames () {
+        //FileResource fr = new FileResource();
+        FileResource fr = new FileResource("data/yob1905.csv");
+        totalNames(fr);
+    }  
+    
     public void totalBirths (FileResource fr) {
         int totalBirths = 0;
         int totalBoys = 0;
@@ -38,10 +63,10 @@ public class BabyBirths {
         System.out.println("female girls = " + totalGirls);
         System.out.println("male boys = " + totalBoys);
     }
-
+    
     public void testTotalBirths () {
         //FileResource fr = new FileResource();
-        FileResource fr = new FileResource("data/yob2014.csv");
+        FileResource fr = new FileResource("data/yob1905.csv");
         totalBirths(fr);
     }
     
@@ -79,8 +104,8 @@ public class BabyBirths {
     }
         
     public void testgetRank(){
-          int year = 1961;
-          String name = "Kai";
+          int year = 1971;
+          String name = "Frank";
           String gender = "M";
          
           int theRank=getRank(year, name, gender);
@@ -103,8 +128,8 @@ public class BabyBirths {
     }
     
     public void testgetName(){
-          int year = 1960;
-          int rank = 9;
+          int year = 1982;
+          int rank = 450;
           String gender = "M";
           String theName=getName(year, rank, gender);
           System.out.println("Name with rank of " + rank+ " is "+ theName + " in " + year);
@@ -119,8 +144,8 @@ public class BabyBirths {
     }
     
     public void test_whatIsNameInYear(){
-    String name = "Tom";
-    int year = 1961;
+    String name = "Owen";
+    int year = 1974;
     int newYear=2014;
     String gender ="M";    
     whatIsNameInYear(name, year,newYear, gender);
@@ -149,7 +174,7 @@ public class BabyBirths {
     }
     
     public void test_yearOfHighestRank(){
-    String name="Thomas";
+    String name="Mich";
     String gender="M";
     int theYear=yearOfHighestRank(name, gender);
     System.out.println(name + " had best ranking in year "+ theYear);
@@ -176,32 +201,53 @@ public class BabyBirths {
     }
     
     public void test_getAverageRank(){
-    String name="Thomas";
+    String name="Robert";
     String gender="M";
     double avgRank= getAverageRank(name, gender);
     System.out.println(name + " had average ranking of "+ avgRank);  
     }
     
     
-    public int getTotalBirthsRankedHigher(int year, String name, String myGender){
-        int myRank = getRank(year, name, myGender);
-        int rankSum = 0;
-        FileResource theFr = new FileResource("data/yob"+year+".csv");
-        CSVParser theparser = theFr.getCSVParser(false);
-            for (CSVRecord rec: theparser){
-                int testRank= getRank(year, rec.get(0), rec.get(1));
-                String testGender=rec.get(1);
-                if ((testGender=="F") && (testRank<myRank)){
-                    rankSum=rankSum + Integer.parseInt(rec.get(2));
-                }
+//     public int getTotalBirthsRankedHigher(int year, String name, String myGender){
+//         int myRank = getRank(year, name, myGender);
+//         int rankSum = 0;
+//         FileResource theFr = new FileResource("data/yob"+year+".csv");
+//         CSVParser theparser = theFr.getCSVParser(false);
+//             for (CSVRecord rec: theparser){
+//                 int testRank= getRank(year, rec.get(0), rec.get(1));
+//                 String testGender=rec.get(1);
+//                 if ((testGender=="F") && (testRank<myRank)){
+//                     rankSum=rankSum + Integer.parseInt(rec.get(2));
+//                 }
+//             }
+//         return rankSum;
+//     }
+    
+    
+    public int getTotalBirthsRankedHigher(int year, String name, String gender){
+    int rank = 0 ;
+    
+    int totalBirth = 0;
+  
+    FileResource fr = new FileResource("data/yob"+year+".csv");
+
+    for (CSVRecord rec : fr.getCSVParser(false)) {
+        if ( rec.get(1).equals(gender)) {
+             rank++;
+             
+             if (rec.get(0).equals(name)) return totalBirth;//}
+             totalBirth = totalBirth + Integer.parseInt(rec.get(2));
             }
-        return rankSum;
-    }
+            
+        }
+    return -1;
+   }  
+    
     
     public void test_getTotalBirthsRankedHigher(){
-    int year=2014;
-    String name = "Olivia";
-    String gender ="F";
+    int year=1990;
+    String name = "Drew";
+    String gender ="M";
     int totalBirthsRankedHigher = getTotalBirthsRankedHigher(year, name, gender);
     System.out.println("There were " + totalBirthsRankedHigher + " births ranked higher than " + name + " in " + year);
     }
