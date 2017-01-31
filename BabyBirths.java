@@ -77,7 +77,6 @@ public class BabyBirths {
         }    
     }
         
-    
     public void testgetRank(){
           int year = 1961;
           String name = "Lorraine";
@@ -87,36 +86,27 @@ public class BabyBirths {
           System.out.println(name + " rank is " + theRank + " in " + year);
     }
 
+    
+    
     public String getName(int year, int rank, String gender){
      String theName = "NO NAME";
      
-        DirectoryResource dr = new DirectoryResource();
-        
-        for (File f : dr.selectedFiles()) {
-            FileResource fr = new FileResource(f);
-            String currentYearString = f.getName();
-            
-            if(currentYearString.contains(Integer.toString(year))){
-            
-                for (CSVRecord rec : fr.getCSVParser(false)){
-                    if(rec.get(1).equals(gender) && (getRank(year,rec.get(0),gender)==rank)){
-                        theName = rec.get(0);
-                        System.out.println(theName);
-                        return theName;
-                    }
-                }
-            }
+        FileResource fr = new FileResource("data/yob"+year+".csv");
+        for (CSVRecord rec : fr.getCSVParser(false)){
+               if(rec.get(1).equals(gender) && (getRank(year,rec.get(0),gender)==rank)){
+                   theName = rec.get(0);
+                   return theName;
+               }
         }
         return theName;
     }
     
     public void testgetName(){
-          int year = 2010;
-          int rank = 3;
-          String gender = "F";
+          int year = 1960;
+          int rank = 9;
+          String gender = "M";
           String theName=getName(year, rank, gender);
-          
-          System.out.println(" Name is " + theName + " in " + year);
+          System.out.println("Name with rank of " + rank+ " is "+ theName + " in " + year);
     }
     
     

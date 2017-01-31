@@ -1,19 +1,19 @@
 #BlueJ package file
 objectbench.height=76
 objectbench.width=497
-package.editor.height=400
+package.editor.height=364
 package.editor.width=399
-package.editor.x=33
-package.editor.y=207
+package.editor.x=1455
+package.editor.y=487
 package.numDependencies=0
 package.numTargets=1
 package.showExtends=true
 package.showUses=true
 project.charset=UTF-8
-target1.editor.height=700
-target1.editor.width=900
-target1.editor.x=573
-target1.editor.y=266
+target1.editor.height=1034
+target1.editor.width=1372
+target1.editor.x=-19
+target1.editor.y=0
 target1.height=50
 target1.name=BabyBirths
 target1.showInterface=false
